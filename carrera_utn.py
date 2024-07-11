@@ -1,7 +1,7 @@
 import pygame
-from datos import *
 from colores import *
-from biblioteca import *
+from datos import *
+from funciones import *
 from variables import *
 
 while mostrar_juego:
@@ -17,7 +17,9 @@ while mostrar_juego:
                     ingreso = ingreso[0:-1]
                 else:
                     ingreso += evento.unicode
-                presion_enter(evento,score,ingreso)
+                presiono_espacio(evento,score,ingreso)
+                if evento.key == pygame.K_SPACE:
+                    ingreso = ""
         if evento.type == pygame.MOUSEBUTTONDOWN:
             if rect_comenzar.collidepoint(evento.pos):
                 mostrar_preguntas = True
@@ -42,7 +44,7 @@ while mostrar_juego:
                 index += 1
                 segundos = 5
                 ubicacion -= 1
-        if evento.type == pygame.USEREVENT:#VER SI PUEDO MEJORAR
+        if evento.type == pygame.USEREVENT:
             if evento.type == tiempo:
                 if mostrar_preguntas == True:
                     if fin_tiempo == False:
@@ -59,30 +61,24 @@ while mostrar_juego:
 
     if juego_terminado == False:
         pantalla.fill(COLOR_CELESTE_OSCURO)
-
         dibujar_juego(juego_terminado,pantalla,rect_comenzar,rect_terminar,rect_respuesta_a,rect_respuesta_b,rect_respuesta_c,rect_ingreso,rect_salir)
-        
-        escribir_juego(juego_terminado,fuente_botones,fuente_textos,segundos,tiempo_juego,score,pantalla,imagen_estudiante,lista_ubicaciones_casillas,ubicacion,imagen_carrera_utn,posicion_carrera_utn,ingreso,rect_ingreso)
-
-        ubicacion = ubicacion_personaje(ubicacion,lista_ubicaciones_casillas)
         if ubicacion == 15:
+            ubicacion = 0
             score = 0
+        ubicacion = ubicacion_personaje(ubicacion,lista_ubicaciones_casillas)
         if ubicacion == 17:
             juego_terminado = True
-
+        escribir_juego(juego_terminado,fuente_botones,fuente_textos,segundos,tiempo_juego,score,pantalla,imagen_estudiante,lista_ubicaciones_casillas,ubicacion,imagen_carrera_utn,posicion_carrera_utn,ingreso,rect_ingreso)
         if mostrar_preguntas:
             escribir_preguntas(mostrar_preguntas,fuente_textos,lista_preguntas,lista_respuestas_a,lista_respuestas_b,lista_respuestas_c,index,pantalla)
         pygame.display.flip()
 
     if juego_terminado:
         pantalla.fill(COLOR_CELESTE_OSCURO)
-
         dibujar_juego(juego_terminado,pantalla,rect_comenzar,rect_terminar,rect_respuesta_a,rect_respuesta_b,rect_respuesta_c,rect_ingreso,rect_salir)
         escribir_juego(juego_terminado,fuente_botones,fuente_textos,segundos,tiempo_juego,score,pantalla,imagen_estudiante,lista_ubicaciones_casillas,ubicacion,imagen_carrera_utn,posicion_carrera_utn,ingreso,rect_ingreso)
-
         jugadores = leer_archivo("puntuaciones.json")
         lista_ordenada = ordenamiento(jugadores)
-
         recorrer_lista(lista_ordenada,fuente_textos,pantalla)
         pygame.display.flip()
 

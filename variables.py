@@ -1,6 +1,5 @@
 import pygame
-from biblioteca import*
-
+from funciones import*
 pygame.init()
 
 # LISTAS 

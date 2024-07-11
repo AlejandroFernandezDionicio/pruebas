@@ -1,1 +1,10 @@
-[]
+[
+    {
+        "nombre": "pepe",
+        "puntaje": 20
+    },
+    {
+        "nombre": "alejandro",
+        "puntaje": 0
+    }
+]
